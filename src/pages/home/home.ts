@@ -38,6 +38,20 @@ export class HomePage {
     this.menu.swipeEnable(false);
   
   }
+
+  ionViewDidEnter() {
+
+    this.auth.refreshToken()
+    .subscribe(response => {
+        //console.log(response.headers.get("Authorization"));
+        this.auth.successfulLogin(response.headers.get("Authorization"));
+        this.navCtrl.setRoot("CategoriasPage");
+    },
+    error => {
+    });
+
+
+  }
   
   ionViewDidLeave() { 
  
