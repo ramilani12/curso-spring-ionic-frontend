@@ -26,6 +26,7 @@ export class ProdutosPage {
       .subscribe(response => {
 
           this.items = response["content"];
+          
           this.loadImageUrls();
 
       }, error => {
@@ -45,8 +46,9 @@ export class ProdutosPage {
     }
   }  
 
-  showDetail() {
-    this.navCtrl.push("ProdutoDetailPage");
+  showDetail(produto_id : string) {
+   
+    this.navCtrl.push("ProdutoDetailPage" , {produto_id : produto_id});
   }
 
 }
