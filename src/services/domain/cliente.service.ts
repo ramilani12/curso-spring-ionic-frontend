@@ -20,7 +20,12 @@ export class ClienteService {
     }
 
 
+    findById (id : string) {
 
+        return this.http.get(
+                `${API_CONFIG.baseUrl}/clientes/${id}`
+        );
+    }
 
     getImageFromBucket(id : string) : Observable<any> {
 
