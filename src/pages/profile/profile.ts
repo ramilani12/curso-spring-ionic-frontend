@@ -22,6 +22,11 @@ export class ProfilePage {
   }
 
   ionViewDidLoad() {
+    this.loadData();
+  }
+
+  loadData() {
+
     let localUser = this.storage.getLocalUser();
 
     if (localUser && localUser.email) {
@@ -39,6 +44,8 @@ export class ProfilePage {
     } else {
       this.navCtrl.setRoot("HomePage");
     }
+
+
   }
 
   getImageIfExists() {
@@ -56,18 +63,37 @@ export class ProfilePage {
 
     this.cameraOn = true;
 
-    const options: CameraOptions = {
-      quality: 100,
-      destinationType: this.camera.DestinationType.DATA_URL,
-      encodingType: this.camera.EncodingType.PNG,
-      mediaType: this.camera.MediaType.PICTURE
-    }
+      const options: CameraOptions = {
+        quality: 100,
+        destinationType: this.camera.DestinationType.DATA_URL,
+        encodingType: this.camera.EncodingType.PNG,
+        mediaType: this.camera.MediaType.PICTURE
+      }
 
-    this.camera.getPicture(options).then((imageData) => {
-     this.picture = 'data:image/png;base64,' + imageData;
-     this.cameraOn = false;
-    }, (err) => {
+      this.camera.getPicture(options).then((imageData) => {
+        this.picture = 'data:image/png;base64,' + imageData;
+        this.cameraOn = false;
+      }, 
+      (err) => {
+      });
+  }
+
+  sendPicture(){
+
+    this.clienteService.uploadPicture(this.picture)
+    .subscribe(response=> {
+
+      this.picture = null;
+      this.loadData();
+
+    }, error => {
+
     });
+
+  }
+
+  cancel() {
+    this.picture = null;
   }
 
 }
